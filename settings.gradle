@@ -1,0 +1,2 @@
+include ':kflow'
+rootProject.name = "KFlow"

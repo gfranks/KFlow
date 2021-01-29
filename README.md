@@ -4,14 +4,29 @@ Kotlin Flow Based Reactive Architecture.
 
 # Install
 
-### Gradle
-`implementation "com.github.gfranks:kflow:0.0.1"`
+### Gradle/JitPack
+
+- Add JitPack to your top-level build.gradle file
+```
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+- Add KFlow to your module's build.gradle file
+```
+dependencies {
+     implementation "com.github.gfranks:KFlow:0.0.2"`
+}
+```
 
 # Usage
 
 ### Android View Model
 
-Start by extending either `KFlowViewModel` (a.k.a `ViewModel`) or `KFlowAndroidViewModel` (a.k.a `AndroidViewModel`). You'll need to provide an implementation for abstract functions `reducer(): Reducer` and `bind(flow:): Flow`. Here's an example of a basic view model with only a single action, in this case `HelloWorldAction.Load`:
+Start by extending either `KFlowViewModel` (a.k.a `ViewModel`) or `KFlowAndroidViewModel` (a.k.a `AndroidViewModel`). You'll need to provide an implementation for abstract functions `emitter(): Emitter` and `bind(flow:): Flow`. Here's an example of a basic view model with only a single action, in this case `HelloWorldAction.Load`:
 ```kotlin
 sealed class HelloWorldState {
     data class Initial(val helloWorld: HelloWorld? = null): HelloWorldState()
@@ -32,7 +47,7 @@ class HelloWorldViewModel(application: Application): KFlowAndroidViewModel<Hello
     @Inject
     lateinit var repository: HelloWorldRepository
 
-    override fun reducer() = object : Reducer<HelloWorldAction, Response<HelloWorld>, HelloWorldState> {
+    override fun emitter() = object : Emitter<HelloWorldAction, Response<HelloWorld>, HelloWorldState> {
         override val initialState: HelloWorldState
             get() = HelloWorldState.Initial()
 
@@ -43,7 +58,7 @@ class HelloWorldViewModel(application: Application): KFlowAndroidViewModel<Hello
                     }
                 }
 
-        override suspend fun reduce(action: HelloWorldAction, state: HelloWorldState, data: Response<HelloWorld>?) =
+        override suspend fun emit(action: HelloWorldAction, state: HelloWorldState, data: Response<HelloWorld>?) =
                 when(action) {
                     is HelloWorldAction.Load -> {
                         data?.let {
@@ -90,7 +105,7 @@ class HelloWorldFragment : Fragment(), OnMapReadyCallback {
     }
 
     /**
-     * Receives all state emissions produced from the view model that pass through the reducer.
+     * Receives all state emissions produced from the view model that pass through the emitter.
      */
     private fun render(state: HelloWorldState) {
         when(state) {

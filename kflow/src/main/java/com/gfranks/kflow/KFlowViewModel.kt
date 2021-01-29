@@ -29,7 +29,7 @@ abstract class KFlowViewModel<Action : Any, Data, State>(
             .map { this.emitter().emit(it.action, _state, it.data) }
 
         bind(flow)
-            .onEach { state.value = it }
+            .onEach(state::setValue)
             .launchIn(viewModelScope)
     }
 

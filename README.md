@@ -4,8 +4,23 @@ Kotlin Flow Based Reactive Architecture.
 
 # Install
 
-### Gradle
-`implementation "com.github.gfranks:kflow:0.0.1"`
+### Gradle/JitPack
+
+- Add JitPack to your top-level build.gradle file
+```
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+- Add KFlow to your module's build.gradle file
+```
+dependencies {
+     implementation "com.github.gfranks:KFlow:0.0.2"`
+}
+```
 
 # Usage
 

@@ -1,9 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlinVersion = "1.4.20"
+    ext.kotlinVersion = "1.4.31"
     ext.coroutinesVersion = "1.4.2"
-    ext.liveDataKtx = "2.2.0"
-    ext.viewModelKtx = "2.2.0"
+    ext.liveDataKtx = "2.3.0"
+    ext.viewModelKtx = "2.3.0"
     repositories {
         google()
         jcenter()
